@@ -2,9 +2,19 @@
 
 > Implements different queues for @pooley/core.
 
+[![@pooley/queues](https://badge.fury.io/js/@pooley%2Fqueues.svg)](https://badge.fury.io/js/@pooley%2Fqueues)
+
 | Queue         | Description                                                                                      |
 | ------------- | ------------------------------------------------------------------------------------------------ |
 | BufferedQueue | Allows to buffer requests to dequeue elements from a queue and flush them once data has arrived. |
+
+## Install
+
+Install the library with it's core peer dependency:
+
+```
+npm install @pooley/queues @pooley/core
+```
 
 ## Usage
 

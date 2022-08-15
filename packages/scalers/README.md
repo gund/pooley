@@ -2,10 +2,20 @@
 
 > Implements different scalers for @pooley/core.
 
+[![@pooley/scalers](https://badge.fury.io/js/@pooley%2Fscalers.svg)](https://badge.fury.io/js/@pooley%2Fscalers)
+
 | Scaler                    | Description                                                                                                                    |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | StaticWorkerPoolScaler    | Allocates a static number of workers based on a static size                                                                    |
 | HtmlInputWorkerPoolScaler | Allocates workers based on the current value of the HTMLInputElement and dynamically updates workers size as the value changes |
+
+## Install
+
+Install the library with it's core peer dependency:
+
+```
+npm install @pooley/scalers @pooley/core
+```
 
 ## Usage
 

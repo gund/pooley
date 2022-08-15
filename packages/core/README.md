@@ -2,9 +2,19 @@
 
 > Generic pool implementation that works with Webworkers, Promises, etc.
 
+[![@pooley/core](https://badge.fury.io/js/@pooley%2Fcore.svg)](https://badge.fury.io/js/@pooley%2Fcore)
+
 Requires a specific worker processor, queue and a scaler to excute.
 
 See other packages for a suitable implementations.
+
+## Install
+
+Install the library:
+
+```
+npm install @pooley/core
+```
 
 ## Usage
 
