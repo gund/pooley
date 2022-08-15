@@ -1,9 +1,9 @@
 {
   "name": "@pooley/queues",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "commonjs",
   "license": "MIT",
-  "description": "Implements different queues for Pooley core.",
+  "description": "Implements different queues for @pooley/core",
   "peerDependencies": {
     "@pooley/core": "^0.0.1"
   }

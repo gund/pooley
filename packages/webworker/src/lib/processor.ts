@@ -1,5 +1,10 @@
 import { WorkerProcessor } from '@pooley/core';
 
+/**
+ * Allows to execute tasks in a pool using Webworkers to fully parallelize pool processing
+ *
+ * The code of the task is converted into a worker stringified code by the factory
+ */
 export class WebWorkerProcessor implements WorkerProcessor<any, any> {
   private worker?: Worker;
   // eslint-disable-next-line @typescript-eslint/no-empty-function

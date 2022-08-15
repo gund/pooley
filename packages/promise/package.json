@@ -1,9 +1,9 @@
 {
   "name": "@pooley/promise",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "commonjs",
   "license": "MIT",
-  "description": "Implements Promise-based processor for Pooley core.",
+  "description": "Implements Promise-based processor for @pooley/core",
   "peerDependencies": {
     "@pooley/core": "^0.0.1"
   }

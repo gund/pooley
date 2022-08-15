@@ -1,10 +1,24 @@
 import { WorkerQueue } from '@pooley/core';
 
 export interface BufferedQueueConfig<T> {
+  /**
+   * Maximum size of dequeue requests that queue should buffer
+   * before triggering a buffer overflow strategy.
+   * @default Infinity
+   */
   bufferSize?: number;
+  /**
+   * A strategy function that is triggered when the dequeue buffer is overflown
+   * @param overSize Size that triggered buffer overflow
+   * @param queue Instance of the queue that has been overflown
+   * @default Throws an error
+   */
   bufferOverflowStrategy?(overSize: number, queue: BufferedQueue<T>): void;
 }
 
+/**
+ * Allows to buffer requests to dequeue elements from a queue and flush them once data has arrived
+ */
 export class BufferedQueue<T> implements WorkerQueue<T> {
   protected bufferSize: NonNullable<BufferedQueueConfig<T>['bufferSize']>;
   protected bufferOverflowStrategy: NonNullable<

@@ -1,6 +1,30 @@
-# core
+# @pooley/core
 
-This library was generated with [Nx](https://nx.dev).
+> Generic pool implementation that works with Webworkers, Promises, etc.
+
+Requires a specific worker processor, queue and a scaler to excute.
+
+See other packages for a suitable implementations.
+
+## Usage
+
+```ts
+import { WorkerPool, WorkerTask } from '@pooley/core';
+
+// Create some task that should process a pool queue
+const task: WorkerTask<string, Promise<string>> = (data) => {
+  return new Promise((res) => setTimeout(() => res(data), 1000));
+};
+
+// Create a pool with a task and suitable queue/scaler/processor
+const pool = new WorkerPool(task, queue, poolScaler, workerProcessorFactory);
+
+// Listen to a processed data from the pool
+pool.on('data', (ev) => this.log('Pool data: ', ev.data));
+
+// Or wait when it's finished
+await pool.once('empty');
+```
 
 ## Building
 

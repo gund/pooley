@@ -1,6 +1,28 @@
-# promise
+# @pooley/promise
 
-This library was generated with [Nx](https://nx.dev).
+> Implements Promise-based processor for @pooley/core.
+
+Allows to execute tasks in a pool using Promises to wait for the completion of the tasks.
+
+Note: All tasks are executed on the same main thread and any blocking operations will block entire pool and everything else - so make sure you are using non-blocking operations inside your tasks!
+
+## Usage
+
+```ts
+import { WorkerPool } from '@pooley/core';
+import { PromiseWorkerProcessorFactory } from '@pooley/promise';
+
+// Create a promise processor factory
+const promiseProcessorFactory = new PromiseWorkerProcessorFactory();
+
+// Create a task that returns a Promise
+const task: WorkerTask<string, Promise<string>> = (data) => {
+  return new Promise((res) => setTimeout(() => res(data), 1000));
+};
+
+// Create a pool with it
+const pool = new WorkerPool(task, queue, poolScaler, promiseProcessorFactory);
+```
 
 ## Building
 
