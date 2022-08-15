@@ -1,6 +1,6 @@
 {
   "name": "@pooley/queues",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "commonjs",
   "license": "MIT",
   "description": "Implements different queues for @pooley/core",
