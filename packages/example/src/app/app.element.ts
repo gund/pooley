@@ -1,6 +1,6 @@
 import './app.element.css';
 
-import { WorkerPool, WorkerTask } from '@pooley/core';
+import { WorkerPool, WorkerPoolEvent, WorkerTask } from '@pooley/core';
 import {
   StaticWorkerPoolScaler,
   HtmlInputWorkerPoolScaler,
@@ -60,12 +60,14 @@ export class AppElement extends HTMLElement {
       queue.pushAll([`${i}`]);
     }
 
-    pool.on('drain', () => this.log('Pool is draining!'));
-    pool.on('busy', () => this.log('Pool is busy!'));
-    pool.on('data', (ev) => this.log('Pool data: ', ev.data));
+    pool.on(WorkerPoolEvent.Drain, () => this.log('Pool is draining!'));
+    pool.on(WorkerPoolEvent.Busy, () => this.log('Pool is busy!'));
+    pool.on(WorkerPoolEvent.Data, (ev) => this.log('Pool data: ', ev.data));
 
-    await pool.once('empty');
+    await pool.once(WorkerPoolEvent.Empty);
     this.log('Pool is empty');
+
+    pool.destroy();
   }
 
   private setup() {

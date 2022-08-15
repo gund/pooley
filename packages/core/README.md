@@ -9,7 +9,7 @@ See other packages for a suitable implementations.
 ## Usage
 
 ```ts
-import { WorkerPool, WorkerTask } from '@pooley/core';
+import { WorkerPool, WorkerTask, WorkerPoolEvent } from '@pooley/core';
 
 // Create some task that should process a pool queue
 const task: WorkerTask<string, Promise<string>> = (data) => {
@@ -20,10 +20,10 @@ const task: WorkerTask<string, Promise<string>> = (data) => {
 const pool = new WorkerPool(task, queue, poolScaler, workerProcessorFactory);
 
 // Listen to a processed data from the pool
-pool.on('data', (ev) => this.log('Pool data: ', ev.data));
+pool.on(WorkerPoolEvent.Data, (ev) => this.log('Pool data: ', ev.data));
 
 // Or wait when it's finished
-await pool.once('empty');
+await pool.once(WorkerPoolEvent.Empty);
 ```
 
 ## Building

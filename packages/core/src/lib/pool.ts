@@ -1,22 +1,24 @@
-import { WorkerPoolEvents } from './events';
+import { WorkerPoolEvent, WorkerPoolEvents } from './events';
+import { listenable, Listenable, ListenableInternal } from './listenable';
 import {
   WorkerProcessor,
-  WorkerProcessorState,
   WorkerProcessorFactory,
+  WorkerProcessorState,
 } from './processor';
 import { WorkerQueue } from './queue';
 import { WorkerPoolScaler } from './scaler';
 import { WorkerTask } from './task';
 
-export class WorkerPool<D, R> {
-  poolSize = 0;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface WorkerPool<D, R> extends Listenable<WorkerPoolEvents<R>> {}
 
+type WorkerPoolInternal<D, R> = WorkerPool<D, R> &
+  ListenableInternal<WorkerPoolEvents<R>>;
+
+export class WorkerPool<D, R> extends listenable() {
+  protected poolSize = 0;
   protected pool: WorkerProcessor<D, R>[] = [];
-
-  private poolState: WorkerProcessorState[] = [];
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private eventListeners: Record<string, ((event: any) => void)[]> = {};
+  protected poolState: WorkerProcessorState[] = [];
 
   constructor(
     protected task: WorkerTask<D, R>,
@@ -24,7 +26,12 @@ export class WorkerPool<D, R> {
     protected poolScaler: WorkerPoolScaler,
     protected processorFactory: WorkerProcessorFactory<D, R>
   ) {
+    super();
     this.poolScaler.registerOnSizeChange(this.onPoolSizeChange.bind(this));
+  }
+
+  getSize() {
+    return this.poolSize;
   }
 
   terminate() {
@@ -36,49 +43,11 @@ export class WorkerPool<D, R> {
     this.pool.forEach((processor) => this.processorFactory.destroy(processor));
     this.pool = [];
     this.poolState = [];
-    this.eventListeners = {};
+    this.int().listeners.clear();
   }
 
-  on<E extends keyof WorkerPoolEvents<R>>(
-    event: E,
-    listener: (event: WorkerPoolEvents<R>[E]) => void
-  ) {
-    const eventListeners =
-      this.eventListeners[event] || (this.eventListeners[event] = []);
-
-    eventListeners.push(listener);
-
-    return () => {
-      const listenerIdx = eventListeners.indexOf(listener);
-
-      if (listenerIdx !== -1) {
-        eventListeners.splice(listenerIdx, 1);
-      }
-    };
-  }
-
-  once<E extends keyof WorkerPoolEvents<R>>(
-    event: E
-  ): Promise<WorkerPoolEvents<R>[E]> {
-    return new Promise((res) => {
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      let clearListener = () => {};
-
-      const oneTimeListener = (event: WorkerPoolEvents<R>[E]) => {
-        clearListener();
-        res(event);
-      };
-
-      clearListener = this.on(event, oneTimeListener);
-    });
-  }
-
-  protected emit<E extends keyof WorkerPoolEvents<R>>(
-    event: E,
-    eventData: WorkerPoolEvents<R>[E]
-  ) {
-    const eventListeners = this.eventListeners[event] || [];
-    eventListeners.forEach((listener) => listener(eventData));
+  protected int() {
+    return this as unknown as WorkerPoolInternal<D, R>;
   }
 
   protected onPoolSizeChange(size: number) {
@@ -139,7 +108,7 @@ export class WorkerPool<D, R> {
 
       this.updatePoolState(processorIdx, WorkerProcessorState.Idle);
 
-      this.emit('data', { data: result });
+      this.int().emit(WorkerPoolEvent.Data, { data: result });
     }
   }
 
@@ -160,7 +129,7 @@ export class WorkerPool<D, R> {
       return;
     }
 
-    this.emit('empty', {});
+    this.int().emit(WorkerPoolEvent.Empty);
   }
 
   private verifyPoolDrain() {
@@ -176,7 +145,9 @@ export class WorkerPool<D, R> {
       return;
     }
 
-    this.emit('drain', { idleProcessors: idleStates.length });
+    this.int().emit(WorkerPoolEvent.Drain, {
+      idleProcessors: idleStates.length,
+    });
   }
 
   private verifyPoolBusy() {
@@ -192,6 +163,6 @@ export class WorkerPool<D, R> {
       return;
     }
 
-    this.emit('busy', {});
+    this.int().emit(WorkerPoolEvent.Busy);
   }
 }
