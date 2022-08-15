@@ -1,14 +1,40 @@
 import { WorkerQueue } from '@pooley/core';
 
+export interface BufferedQueueConfig<T> {
+  bufferSize?: number;
+  bufferOverflowStrategy?(overSize: number, queue: BufferedQueue<T>): void;
+}
+
 export class BufferedQueue<T> implements WorkerQueue<T> {
-  private queue: T[] = [];
-  private requests: ((data: T) => void)[] = [];
+  protected bufferSize: NonNullable<BufferedQueueConfig<T>['bufferSize']>;
+  protected bufferOverflowStrategy: NonNullable<
+    BufferedQueueConfig<T>['bufferOverflowStrategy']
+  >;
+
+  protected queue: T[] = [];
+  protected requests: ((data: T) => void)[] = [];
+
+  constructor(protected config?: BufferedQueueConfig<T>) {
+    this.bufferSize = this.config?.bufferSize ?? Infinity;
+
+    this.bufferOverflowStrategy =
+      this.config?.bufferOverflowStrategy ??
+      ((overSize) => {
+        throw new Error(`BufferedQueue: Queue overflow size ${overSize}!`);
+      });
+  }
 
   isEmpty() {
     return this.queue.length === 0;
   }
 
   pushAll(data: T[]) {
+    const newQueueSize = this.queue.length + data.length;
+
+    if (newQueueSize > this.bufferSize) {
+      return this.bufferOverflowStrategy(newQueueSize, this);
+    }
+
     this.queue.push(...data);
 
     if (this.requests.length > 0) {
@@ -26,7 +52,7 @@ export class BufferedQueue<T> implements WorkerQueue<T> {
     return new Promise((res) => this.requests.push(res));
   }
 
-  private flushRequests() {
+  protected flushRequests() {
     const maxSize = Math.min(this.queue.length, this.requests.length);
 
     for (let i = 0; i < maxSize; i++) {
@@ -36,7 +62,7 @@ export class BufferedQueue<T> implements WorkerQueue<T> {
     }
   }
 
-  private dequeue() {
+  protected dequeue() {
     return this.queue.shift();
   }
 }
