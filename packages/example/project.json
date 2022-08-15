@@ -1,0 +1,62 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/example/src",
+  "tags": ["ui", "demo"],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/packages/example",
+        "compiler": "babel",
+        "index": "packages/example/src/index.html",
+        "baseHref": "/",
+        "main": "packages/example/src/main.ts",
+        "polyfills": "packages/example/src/polyfills.ts",
+        "tsConfig": "packages/example/tsconfig.app.json",
+        "assets": [
+          "packages/example/src/favicon.ico",
+          "packages/example/src/assets"
+        ],
+        "styles": ["packages/example/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "packages/example/src/environments/environment.ts",
+              "with": "packages/example/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "example:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "example:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/example/**/*.ts"]
+      }
+    }
+  }
+}

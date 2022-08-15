@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "core": "packages/core",
+    "example": "packages/example",
     "promise": "packages/promise",
     "queues": "packages/queues",
     "scalers": "packages/scalers",
