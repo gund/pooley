@@ -1,1 +1,2 @@
-export * from './lib/webworker';
+export * from './lib/processor';
+export * from './lib/processor-factory';
