@@ -81,7 +81,10 @@ export class AppElement extends HTMLElement {
     this.rangeElement = document.querySelector<HTMLInputElement>('.range')!;
     this.rangeValueElement = document.querySelector('.range-value')!;
 
-    this.rangeElement.addEventListener('change', this.updateRangeValue);
+    this.rangeElement.addEventListener(
+      'change',
+      this.updateRangeValue.bind(this)
+    );
     this.updateRangeValue();
   }
 
