@@ -1,5 +1,6 @@
 {
   "name": "@pooley/webworker",
   "version": "0.0.1",
-  "type": "commonjs"
+  "type": "commonjs",
+  "description": "Implements Webworker-based processor for Pooley core."
 }
