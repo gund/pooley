@@ -14,7 +14,13 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@pooley/core": ["packages/core/src/index.ts"],
+      "@pooley/promise": ["packages/promise/src/index.ts"],
+      "@pooley/queues": ["packages/queues/src/index.ts"],
+      "@pooley/scalers": ["packages/scalers/src/index.ts"],
+      "@pooley/webworker": ["packages/webworker/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
