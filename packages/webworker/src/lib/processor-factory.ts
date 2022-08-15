@@ -6,25 +6,27 @@ import {
 
 import { WebWorkerProcessor } from './processor';
 
-export class WebWorkerProcessorFactory
-  implements WorkerProcessorFactory<any, any>
+export class WebWorkerProcessorFactory<D, R>
+  implements WorkerProcessorFactory<D, R>
 {
-  private taskToCode = new Map<WorkerTask<any, any>, string>();
+  private taskToCode = new Map<WorkerTask<D, R>, string>();
 
-  constructor(protected webWorkerProcessorType = WebWorkerProcessor) {}
+  constructor(protected webWorkerProcessorType = WebWorkerProcessor<D, R>) {}
 
-  create(task: WorkerTask<any, any>): Promise<WorkerProcessor<any, any>> {
+  create(task: WorkerTask<D, R>): Promise<WorkerProcessor<D, R>> {
     return Promise.resolve(
       new this.webWorkerProcessorType(this.getTaskCode(task))
     );
   }
 
-  destroy(processor: WorkerProcessor<any, any>): Promise<void> {
+  destroy(processor: WorkerProcessor<D, R>): Promise<void> {
     return processor.terminate();
   }
 
-  private getTaskCode(task: WorkerTask<any, any>) {
+  private getTaskCode(task: WorkerTask<D, R>) {
     if (this.taskToCode.has(task)) {
+      // Existence check is done above
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return this.taskToCode.get(task)!;
     }
 
@@ -34,10 +36,10 @@ export class WebWorkerProcessorFactory
     return taskCode;
   }
 
-  private generateTaskCode(task: WorkerTask<any, any>) {
+  private generateTaskCode(task: WorkerTask<D, R>) {
     function initWorker(
       this: DedicatedWorkerGlobalScope,
-      task: WorkerTask<any, any>
+      task: WorkerTask<D, R>
     ) {
       this.onmessage = (e) => {
         const result = task(e.data);

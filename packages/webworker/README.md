@@ -12,10 +12,7 @@ Note: Since a task is executed in a different thread it cannot use any scoped va
 import { WorkerPool } from '@pooley/core';
 import { WebWorkerProcessor } from '@pooley/webworker';
 
-// Create a webworker processor factory
-const webWorkerProcessorFactory = new WebWorkerProcessorFactory();
-
-// Create a task that will execute in a WebWorker
+// Create a task that will be executed in a WebWorker
 const task: WorkerTask<string, string> = (data) => {
   while (Date.now() - start < 1000) {
     // Fully blocking the thread is fine here...
@@ -23,8 +20,13 @@ const task: WorkerTask<string, string> = (data) => {
   return data;
 };
 
-// Create a pool with it
-const pool = new WorkerPool(task, queue, poolScaler, webWorkerProcessorFactory);
+// Create a pool with webworker processor factory
+const pool = new WorkerPool(
+  task,
+  queue,
+  poolScaler,
+  new WebWorkerProcessorFactory()
+);
 ```
 
 ## Building

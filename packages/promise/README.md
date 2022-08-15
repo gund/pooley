@@ -12,16 +12,18 @@ Note: All tasks are executed on the same main thread and any blocking operations
 import { WorkerPool } from '@pooley/core';
 import { PromiseWorkerProcessorFactory } from '@pooley/promise';
 
-// Create a promise processor factory
-const promiseProcessorFactory = new PromiseWorkerProcessorFactory();
-
 // Create a task that returns a Promise
 const task: WorkerTask<string, Promise<string>> = (data) => {
   return new Promise((res) => setTimeout(() => res(data), 1000));
 };
 
-// Create a pool with it
-const pool = new WorkerPool(task, queue, poolScaler, promiseProcessorFactory);
+// Create a pool with promise processor factory
+const pool = new WorkerPool(
+  task,
+  queue,
+  poolScaler,
+  new PromiseWorkerProcessorFactory()
+);
 ```
 
 ## Building

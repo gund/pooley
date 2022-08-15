@@ -10,12 +10,13 @@ import { WorkerPoolScaler } from './scaler';
 import { WorkerTask } from './task';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface WorkerPool<D, R> extends Listenable<WorkerPoolEvents<R>> {}
+export interface WorkerPool<D, R, E = WorkerPoolEvents<R>>
+  extends Listenable<E> {}
 
-type WorkerPoolInternal<D, R> = WorkerPool<D, R> &
-  ListenableInternal<WorkerPoolEvents<R>>;
+type WorkerPoolInternal<D, R, E = WorkerPoolEvents<R>> = WorkerPool<D, R, E> &
+  ListenableInternal<E>;
 
-export class WorkerPool<D, R> extends listenable() {
+export class WorkerPool<D, R, E = WorkerPoolEvents<R>> extends listenable() {
   protected poolSize = 0;
   protected pool: WorkerProcessor<D, R>[] = [];
   protected poolState: WorkerProcessorState[] = [];

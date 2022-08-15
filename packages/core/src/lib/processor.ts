@@ -6,7 +6,7 @@ export enum WorkerProcessorState {
 }
 
 export interface WorkerProcessor<D, R> {
-  run(data: D): Promise<R>;
+  run(data: D): Promise<Awaited<R>>;
   terminate(): Promise<void>;
 }
 

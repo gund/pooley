@@ -1,12 +1,8 @@
 import './app.element.css';
 
 import { WorkerPool, WorkerPoolEvent, WorkerTask } from '@pooley/core';
-import {
-  StaticWorkerPoolScaler,
-  HtmlInputWorkerPoolScaler,
-} from '@pooley/scalers';
 import { BufferedQueue } from '@pooley/queues';
-import { PromiseWorkerProcessorFactory } from '@pooley/promise';
+import { HtmlInputWorkerPoolScaler } from '@pooley/scalers';
 import { WebWorkerProcessorFactory } from '@pooley/webworker';
 
 export class AppElement extends HTMLElement {
@@ -26,18 +22,7 @@ export class AppElement extends HTMLElement {
   }
 
   private async main() {
-    const queue = new BufferedQueue<string>();
-    const staticPoolScaler = new StaticWorkerPoolScaler(5);
-    const inputPoolScaler = new HtmlInputWorkerPoolScaler(this.rangeElement);
-    const promiseProcessorFactory = new PromiseWorkerProcessorFactory();
-    const webWorkerProcessorFactory = new WebWorkerProcessorFactory();
-
-    const asyncTask: WorkerTask<string, Promise<string>> = (url) => {
-      console.log('Executing Async task with url', url);
-      return new Promise((res) => setTimeout(() => res(url), 1000));
-    };
-
-    const syncTask: WorkerTask<string, string> = (url) => {
+    const task: WorkerTask<string, string> = (url) => {
       const start = Date.now();
 
       console.log('Executing Sync task with url', url);
@@ -49,11 +34,13 @@ export class AppElement extends HTMLElement {
       return url;
     };
 
+    const queue = new BufferedQueue<string>();
+
     const pool = new WorkerPool(
-      syncTask,
+      task,
       queue,
-      inputPoolScaler,
-      webWorkerProcessorFactory
+      new HtmlInputWorkerPoolScaler(this.rangeElement),
+      new WebWorkerProcessorFactory()
     );
 
     for (let i = 0; i < 100; i++) {

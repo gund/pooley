@@ -15,14 +15,11 @@
 import { WorkerPool } from '@pooley/core';
 import { StaticWorkerPoolScaler } from '@pooley/scalers';
 
-// Create a static worker pool scaler
-const staticPoolScaler = new StaticWorkerPoolScaler(5);
-
-// Create a pool with it
+// Create a pool with static worker pool scaler
 const pool = new WorkerPool(
   task,
   queue,
-  staticPoolScaler,
+  new StaticWorkerPoolScaler(5),
   workerProcessorFactory
 );
 ```
@@ -33,16 +30,11 @@ const pool = new WorkerPool(
 import { WorkerPool } from '@pooley/core';
 import { HtmlInputWorkerPoolScaler } from '@pooley/scalers';
 
-// Create an input worker pool scaler
-const inputPoolScaler = new HtmlInputWorkerPoolScaler(
-  document.querySelector('input')
-);
-
-// Create a pool with it
+// Create a pool with input worker pool scaler
 const pool = new WorkerPool(
   task,
   queue,
-  inputPoolScaler,
+  new HtmlInputWorkerPoolScaler(document.querySelector('input')),
   workerProcessorFactory
 );
 ```

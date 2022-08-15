@@ -5,16 +5,16 @@ import { WorkerProcessor } from '@pooley/core';
  *
  * The code of the task is converted into a worker stringified code by the factory
  */
-export class WebWorkerProcessor implements WorkerProcessor<any, any> {
+export class WebWorkerProcessor<D, R> implements WorkerProcessor<D, R> {
   private worker?: Worker;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private cleanupWorker = () => {};
-  private resolver?: (res: any) => void;
-  private rejector?: (err: any) => void;
+  private resolver?: (res: Awaited<R>) => void;
+  private rejector?: (err: unknown) => void;
 
   constructor(private workerCode: string) {}
 
-  run(data: any): Promise<any> {
+  run(data: D): Promise<Awaited<R>> {
     return new Promise((res, rej) => {
       this.resolver = res;
       this.rejector = rej;

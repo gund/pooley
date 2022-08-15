@@ -23,5 +23,5 @@ export interface WorkerPoolDrainEvent {
 export interface WorkerPoolBusyEvent {}
 
 export interface WorkerPoolDataEvent<D> {
-  data: D;
+  data: Awaited<D>;
 }
