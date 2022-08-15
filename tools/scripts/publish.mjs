@@ -49,7 +49,13 @@ process.chdir(outputPath);
 // Updating the version in "package.json" before publishing
 try {
   const json = JSON.parse(readFileSync(`package.json`).toString());
+
+  // Update package version
   json.version = version;
+
+  // Set package type to 'module'
+  json.type = 'module';
+
   writeFileSync(`package.json`, JSON.stringify(json, null, 2));
 } catch (e) {
   console.error(
