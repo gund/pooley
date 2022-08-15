@@ -16,24 +16,16 @@ export class AppElement extends HTMLElement {
   private rangeElement: HTMLInputElement;
   private rangeValueElement: HTMLElement;
 
+  constructor(private _document = document, private _console = console) {
+    super();
+  }
+
   connectedCallback() {
-    this.innerHTML = `
-      <label>
-        Pool Size
-        <input type="range" min="1" max="10" value="1" class="range" />
-        <span class="range-value"></span>
-      </label>
-
-      <ul class="logs"></ul>
-      `;
-
     this.setup();
-    this.main().catch(console.error);
+    this.main().catch(this._console.error);
   }
 
   private async main() {
-    this.setup();
-
     const queue = new BufferedQueue<string>();
     const staticPoolScaler = new StaticWorkerPoolScaler(5);
     const inputPoolScaler = new HtmlInputWorkerPoolScaler(this.rangeElement);
@@ -77,9 +69,19 @@ export class AppElement extends HTMLElement {
   }
 
   private setup() {
-    this.logsElement = document.querySelector('.logs')!;
-    this.rangeElement = document.querySelector<HTMLInputElement>('.range')!;
-    this.rangeValueElement = document.querySelector('.range-value')!;
+    this.innerHTML = `
+      <label>
+        Pool Size
+        <input type="range" min="1" max="10" value="1" class="range" />
+        <span class="range-value"></span>
+      </label>
+
+      <ul class="logs"></ul>
+      `;
+
+    this.logsElement = this.querySelector('.logs')!;
+    this.rangeElement = this.querySelector<HTMLInputElement>('.range')!;
+    this.rangeValueElement = this.querySelector('.range-value')!;
 
     this.rangeElement.addEventListener(
       'change',
@@ -93,10 +95,11 @@ export class AppElement extends HTMLElement {
   }
 
   private log(...msgs: any[]) {
-    const logElem = document.createElement('li');
+    const logElem = this._document.createElement('li');
     logElem.innerText = msgs.join(' ');
     this.logsElement.prepend(logElem);
-    console.log(...msgs);
+    this._console.log(...msgs);
   }
 }
+
 customElements.define('pooley-root', AppElement);
