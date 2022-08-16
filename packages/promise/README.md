@@ -28,12 +28,12 @@ const task: WorkerTask<string, Promise<string>> = (data) => {
 };
 
 // Create a pool with promise processor factory
-const pool = new WorkerPool(
+const pool = new WorkerPool({
   task,
   queue,
   poolScaler,
-  new PromiseWorkerProcessorFactory()
-);
+  processorFactory: new PromiseWorkerProcessorFactory(),
+});
 ```
 
 ## Building

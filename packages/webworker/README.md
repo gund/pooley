@@ -31,12 +31,12 @@ const task: WorkerTask<string, string> = (data) => {
 };
 
 // Create a pool with webworker processor factory
-const pool = new WorkerPool(
+const pool = new WorkerPool({
   task,
   queue,
   poolScaler,
-  new WebWorkerProcessorFactory()
-);
+  processorFactory: new WebWorkerProcessorFactory(),
+});
 ```
 
 ## Building

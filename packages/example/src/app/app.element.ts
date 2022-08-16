@@ -8,9 +8,9 @@ import { WebWorkerProcessorFactory } from '@pooley/webworker';
 export class AppElement extends HTMLElement {
   static observedAttributes = [];
 
-  private logsElement: HTMLElement;
-  private rangeElement: HTMLInputElement;
-  private rangeValueElement: HTMLElement;
+  private logsElement!: HTMLElement;
+  private rangeElement!: HTMLInputElement;
+  private rangeValueElement!: HTMLElement;
 
   constructor(private _document = document, private _console = console) {
     super();
@@ -35,13 +35,10 @@ export class AppElement extends HTMLElement {
     };
 
     const queue = new BufferedQueue<string>();
+    const poolScaler = new HtmlInputWorkerPoolScaler(this.rangeElement);
+    const processorFactory = new WebWorkerProcessorFactory<string, string>();
 
-    const pool = new WorkerPool(
-      task,
-      queue,
-      new HtmlInputWorkerPoolScaler(this.rangeElement),
-      new WebWorkerProcessorFactory()
-    );
+    const pool = new WorkerPool({ task, queue, poolScaler, processorFactory });
 
     for (let i = 0; i < 100; i++) {
       queue.pushAll([`${i}`]);
@@ -68,13 +65,15 @@ export class AppElement extends HTMLElement {
       <ul class="logs"></ul>
       `;
 
-    this.logsElement = this.querySelector('.logs')!;
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     this.rangeElement = this.querySelector<HTMLInputElement>('.range')!;
     this.rangeValueElement = this.querySelector('.range-value')!;
+    this.logsElement = this.querySelector('.logs')!;
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
     this.rangeElement.addEventListener(
       'change',
-      this.updateRangeValue.bind(this)
+      this.updateRangeValue.bind(this),
     );
     this.updateRangeValue();
   }
@@ -83,7 +82,7 @@ export class AppElement extends HTMLElement {
     this.rangeValueElement.textContent = this.rangeElement.value;
   }
 
-  private log(...msgs: any[]) {
+  private log(...msgs: unknown[]) {
     const logElem = this._document.createElement('li');
     logElem.innerText = msgs.join(' ');
     this.logsElement.prepend(logElem);

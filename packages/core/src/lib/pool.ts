@@ -17,7 +17,8 @@ import { WorkerTask } from './task';
 export interface WorkerPool<TData, TResult, TEvents = WorkerPoolEvents<TResult>>
   extends Listenable<TEvents> {}
 
-interface WorkerPoolInternal<
+/** @internal */
+export interface WorkerPoolInternal<
   TData,
   TResult,
   TEvents = WorkerPoolEvents<TResult>
@@ -25,23 +26,32 @@ interface WorkerPoolInternal<
     ListenableEmitable<TEvents>,
     ListenableInternal<TEvents> {}
 
+export interface WorkerPoolConfig<TData, TResult> {
+  task: WorkerTask<TData, TResult>;
+  queue: WorkerQueue<TData>;
+  poolScaler: WorkerPoolScaler;
+  processorFactory: WorkerProcessorFactory<TData, TResult>;
+}
+
 export class WorkerPool<
   TData,
   TResult,
   TEvents = WorkerPoolEvents<TResult>
 > extends listenable() {
+  protected readonly task = this.config.task;
+  protected readonly queue = this.config.queue;
+  protected readonly poolScaler = this.config.poolScaler;
+  protected readonly processorFactory = this.config.processorFactory;
+
   protected poolSize = 0;
   protected pool: WorkerProcessor<TData, TResult>[] = [];
   protected poolState: WorkerProcessorState[] = [];
 
-  constructor(
-    protected task: WorkerTask<TData, TResult>,
-    protected queue: WorkerQueue<TData>,
-    protected poolScaler: WorkerPoolScaler,
-    protected processorFactory: WorkerProcessorFactory<TData, TResult>
-  ) {
+  constructor(private readonly config: WorkerPoolConfig<TData, TResult>) {
     super();
-    this.poolScaler.registerOnSizeChange(this.onPoolSizeChange.bind(this));
+
+    this.poolScaler.registerOnSizeChange(this.scalePoolTo.bind(this));
+    this.scalePoolTo(this.poolScaler.getSize());
   }
 
   getSize() {
@@ -64,7 +74,7 @@ export class WorkerPool<
     return this as unknown as WorkerPoolInternal<TData, TResult>;
   }
 
-  protected onPoolSizeChange(size: number) {
+  protected scalePoolTo(size: number) {
     if (size === this.poolSize) {
       return;
     }

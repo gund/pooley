@@ -27,7 +27,12 @@ const task: WorkerTask<string, Promise<string>> = (data) => {
 };
 
 // Create a pool with a task and suitable queue/scaler/processor
-const pool = new WorkerPool(task, queue, poolScaler, workerProcessorFactory);
+const pool = new WorkerPool({
+  task,
+  queue,
+  poolScaler,
+  processorFactory,
+});
 
 // Listen to a processed data from the pool
 pool.on(WorkerPoolEvent.Data, (ev) => this.log('Pool data: ', ev.data));

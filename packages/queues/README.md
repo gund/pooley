@@ -28,7 +28,12 @@ import { BufferedQueue } from '@pooley/queues';
 const queue = new BufferedQueue<string>();
 
 // Create a pool with it
-const pool = new WorkerPool(task, queue, poolScaler, workerProcessorFactory);
+const pool = new WorkerPool({
+  task,
+  queue,
+  poolScaler,
+  processorFactory,
+});
 
 // Start pushing into the queue
 queue.pushAll(['some', 'data']);

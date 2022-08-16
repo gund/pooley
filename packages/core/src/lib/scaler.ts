@@ -1,4 +1,5 @@
 export interface WorkerPoolScaler {
+  getSize(): number;
   registerOnSizeChange(cb: WorkerPoolScalerSizeChangeCallback): void;
 }
 

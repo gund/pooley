@@ -9,25 +9,26 @@ import {
  */
 export class HtmlInputWorkerPoolScaler implements WorkerPoolScaler {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private changeSizeCb: WorkerPoolScalerSizeChangeCallback = () => {};
+  protected updateSize: WorkerPoolScalerSizeChangeCallback = () => {};
 
   /**
    * @param inputElem Input element to use
    * @param eventName Event name to watch for value changes. Default: 'change'
    */
   constructor(
-    private inputElem: HTMLInputElement,
-    private eventName = 'change'
+    private readonly inputElem: HTMLInputElement,
+    private readonly eventName = 'change'
   ) {
-    this.inputElem.addEventListener(this.eventName, () => this.updateSize());
+    this.inputElem.addEventListener(this.eventName, () =>
+      this.updateSize(this.getSize())
+    );
+  }
+
+  getSize(): number {
+    return +this.inputElem.value;
   }
 
   registerOnSizeChange(cb: WorkerPoolScalerSizeChangeCallback): void {
-    this.changeSizeCb = cb;
-    this.updateSize();
-  }
-
-  private updateSize() {
-    this.changeSizeCb(+this.inputElem.value);
+    this.updateSize = cb;
   }
 }
