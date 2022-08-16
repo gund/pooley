@@ -1,1 +1,1 @@
-export type WorkerTask<D, R> = (data: D) => R;
+export type WorkerTask<TData, TResult> = (data: TData) => TResult;

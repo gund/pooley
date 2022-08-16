@@ -1,5 +1,10 @@
 import { WorkerPoolEvent, WorkerPoolEvents } from './events';
-import { listenable, Listenable, ListenableInternal } from './listenable';
+import {
+  listenable,
+  Listenable,
+  ListenableEmitable,
+  ListenableInternal,
+} from './listenable';
 import {
   WorkerProcessor,
   WorkerProcessorFactory,
@@ -9,23 +14,31 @@ import { WorkerQueue } from './queue';
 import { WorkerPoolScaler } from './scaler';
 import { WorkerTask } from './task';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface WorkerPool<D, R, E = WorkerPoolEvents<R>>
-  extends Listenable<E> {}
+export interface WorkerPool<TData, TResult, TEvents = WorkerPoolEvents<TResult>>
+  extends Listenable<TEvents> {}
 
-type WorkerPoolInternal<D, R, E = WorkerPoolEvents<R>> = WorkerPool<D, R, E> &
-  ListenableInternal<E>;
+interface WorkerPoolInternal<
+  TData,
+  TResult,
+  TEvents = WorkerPoolEvents<TResult>
+> extends WorkerPool<TData, TResult, TEvents>,
+    ListenableEmitable<TEvents>,
+    ListenableInternal<TEvents> {}
 
-export class WorkerPool<D, R, E = WorkerPoolEvents<R>> extends listenable() {
+export class WorkerPool<
+  TData,
+  TResult,
+  TEvents = WorkerPoolEvents<TResult>
+> extends listenable() {
   protected poolSize = 0;
-  protected pool: WorkerProcessor<D, R>[] = [];
+  protected pool: WorkerProcessor<TData, TResult>[] = [];
   protected poolState: WorkerProcessorState[] = [];
 
   constructor(
-    protected task: WorkerTask<D, R>,
-    protected queue: WorkerQueue<D>,
+    protected task: WorkerTask<TData, TResult>,
+    protected queue: WorkerQueue<TData>,
     protected poolScaler: WorkerPoolScaler,
-    protected processorFactory: WorkerProcessorFactory<D, R>
+    protected processorFactory: WorkerProcessorFactory<TData, TResult>
   ) {
     super();
     this.poolScaler.registerOnSizeChange(this.onPoolSizeChange.bind(this));
@@ -48,7 +61,7 @@ export class WorkerPool<D, R, E = WorkerPoolEvents<R>> extends listenable() {
   }
 
   protected int() {
-    return this as unknown as WorkerPoolInternal<D, R>;
+    return this as unknown as WorkerPoolInternal<TData, TResult>;
   }
 
   protected onPoolSizeChange(size: number) {
@@ -85,7 +98,7 @@ export class WorkerPool<D, R, E = WorkerPoolEvents<R>> extends listenable() {
     this.poolState.splice(minI);
   }
 
-  protected activate(processor: WorkerProcessor<D, R>) {
+  protected activate(processor: WorkerProcessor<TData, TResult>) {
     const processorIdx = this.pool.push(processor) - 1;
 
     this.updatePoolState(processorIdx, WorkerProcessorState.Idle);
@@ -93,7 +106,7 @@ export class WorkerPool<D, R, E = WorkerPoolEvents<R>> extends listenable() {
   }
 
   protected async process(processorIdx: number) {
-    let processor: WorkerProcessor<D, R> | undefined;
+    let processor: WorkerProcessor<TData, TResult> | undefined;
 
     while ((processor = this.pool[processorIdx])) {
       this.verifyPoolEmpty();

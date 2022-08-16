@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
-
 export enum WorkerPoolEvent {
   Empty = 'empty',
   Drain = 'drain',
@@ -22,6 +20,6 @@ export interface WorkerPoolDrainEvent {
 
 export interface WorkerPoolBusyEvent {}
 
-export interface WorkerPoolDataEvent<D> {
-  data: Awaited<D>;
+export interface WorkerPoolDataEvent<TData> {
+  data: Awaited<TData>;
 }

@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Cancellable, Constructor } from './types';
 
-export type ListenableCallback<T = unknown> = (data: T) => void;
-
 export interface Listenable<TEventMap> {
   on<TEvent extends keyof TEventMap>(
     event: TEvent,
@@ -13,18 +11,23 @@ export interface Listenable<TEventMap> {
   ): Promise<TEventMap[TEvent]>;
 }
 
+export interface ListenableEmitable<TEventMap> {
+  emit<TEvent extends keyof TEventMap>(
+    event: TEvent,
+    data?: TEventMap[TEvent]
+  ): void;
+}
+
+/** @internal */
 export interface ListenableInternal<TEventMap> extends Listenable<TEventMap> {
   /** @internal */
   listeners: Map<
     keyof TEventMap,
     Set<ListenableCallback<TEventMap[keyof TEventMap]>>
   >;
-  /** @internal */
-  emit<TEvent extends keyof TEventMap>(
-    event: TEvent,
-    data?: TEventMap[TEvent]
-  ): void;
 }
+
+export type ListenableCallback<TData = unknown> = (data: TData) => void;
 
 export function listenable<
   TEventMap,
@@ -36,7 +39,10 @@ export function listenable<
 ): TBase & ListenableInternal<TEventMap> {
   return class ListenableImpl
     extends base
-    implements ListenableInternal<TEventMap>
+    implements
+      Listenable<TEventMap>,
+      ListenableEmitable<TEventMap>,
+      ListenableInternal<TEventMap>
   {
     listeners = new Map<
       keyof TEventMap,

@@ -1,16 +1,18 @@
 import { WorkerTask } from './task';
 
-export enum WorkerProcessorState {
-  Idle,
-  Busy,
-}
-
-export interface WorkerProcessor<D, R> {
-  run(data: D): Promise<Awaited<R>>;
+export interface WorkerProcessor<TData, TResult> {
+  run(data: TData): Promise<Awaited<TResult>>;
   terminate(): Promise<void>;
 }
 
-export interface WorkerProcessorFactory<D, R> {
-  create(task: WorkerTask<D, R>): Promise<WorkerProcessor<D, R>>;
-  destroy(processor: WorkerProcessor<D, R>): Promise<void>;
+export interface WorkerProcessorFactory<TData, TResult> {
+  create(
+    task: WorkerTask<TData, TResult>
+  ): Promise<WorkerProcessor<TData, TResult>>;
+  destroy(processor: WorkerProcessor<TData, TResult>): Promise<void>;
+}
+
+export enum WorkerProcessorState {
+  Idle,
+  Busy,
 }

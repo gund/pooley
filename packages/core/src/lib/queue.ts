@@ -1,4 +1,4 @@
-export interface WorkerQueue<D> {
+export interface WorkerQueue<TData> {
   isEmpty(): boolean;
-  request(): Promise<D>;
+  request(): Promise<TData>;
 }

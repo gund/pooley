@@ -9,5 +9,6 @@ export * from './lib/task';
 export {
   listenable,
   type Listenable,
+  type ListenableEmitable,
   type ListenableCallback,
 } from './lib/listenable';

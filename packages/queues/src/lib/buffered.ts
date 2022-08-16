@@ -1,6 +1,6 @@
 import { WorkerQueue } from '@pooley/core';
 
-export interface BufferedQueueConfig<T> {
+export interface BufferedQueueConfig<TData> {
   /**
    * Maximum size of dequeue requests that queue should buffer
    * before triggering a buffer overflow strategy.
@@ -13,7 +13,7 @@ export interface BufferedQueueConfig<T> {
    * @param queue Instance of the queue that has been overflown
    * @default Throws an error
    */
-  bufferOverflowStrategy?(overSize: number, queue: BufferedQueue<T>): void;
+  bufferOverflowStrategy?(overSize: number, queue: BufferedQueue<TData>): void;
 }
 
 /**

@@ -6,20 +6,23 @@ import {
 
 import { PromiseWorkerProcessor } from './processor';
 
-export class PromiseWorkerProcessorFactory<D, R>
-  implements WorkerProcessorFactory<D, Promise<R>>
+export class PromiseWorkerProcessorFactory<TData, TResult>
+  implements WorkerProcessorFactory<TData, Promise<TResult>>
 {
   constructor(
-    protected promiseWorkerProcessorType = PromiseWorkerProcessor<D, R>
+    protected promiseWorkerProcessorType = PromiseWorkerProcessor<
+      TData,
+      TResult
+    >
   ) {}
 
   create(
-    task: WorkerTask<D, Promise<R>>
-  ): Promise<WorkerProcessor<D, Promise<R>>> {
+    task: WorkerTask<TData, Promise<TResult>>
+  ): Promise<WorkerProcessor<TData, Promise<TResult>>> {
     return Promise.resolve(new this.promiseWorkerProcessorType(task));
   }
 
-  destroy(processor: WorkerProcessor<D, Promise<R>>): Promise<void> {
+  destroy(processor: WorkerProcessor<TData, Promise<TResult>>): Promise<void> {
     return processor.terminate();
   }
 }

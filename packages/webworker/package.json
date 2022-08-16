@@ -1,6 +1,6 @@
 {
   "name": "@pooley/webworker",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "commonjs",
   "license": "MIT",
   "description": "Implements Webworker-based processor for @pooley/core",
