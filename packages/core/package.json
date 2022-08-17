@@ -1,6 +1,6 @@
 {
   "name": "@pooley/core",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "type": "commonjs",
   "license": "MIT",
   "description": "Generic pool implementation that works with Webworkers, Promises, etc."

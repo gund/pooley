@@ -1,10 +1,10 @@
 {
   "name": "@pooley/scalers",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "type": "commonjs",
   "license": "MIT",
   "description": "Implements different scalers for @pooley/core",
   "peerDependencies": {
-    "@pooley/core": "^0.0.1"
+    "@pooley/core": "^0.0.7"
   }
 }
