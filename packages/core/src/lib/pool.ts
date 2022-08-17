@@ -21,7 +21,7 @@ export interface WorkerPool<TData, TResult, TEvents = WorkerPoolEvents<TResult>>
 export interface WorkerPoolInternal<
   TData,
   TResult,
-  TEvents = WorkerPoolEvents<TResult>
+  TEvents = WorkerPoolEvents<TResult>,
 > extends WorkerPool<TData, TResult, TEvents>,
     ListenableEmitable<TEvents>,
     ListenableInternal<TEvents> {}
@@ -36,7 +36,7 @@ export interface WorkerPoolConfig<TData, TResult> {
 export class WorkerPool<
   TData,
   TResult,
-  TEvents = WorkerPoolEvents<TResult>
+  TEvents = WorkerPoolEvents<TResult>,
 > extends listenable() {
   protected readonly task = this.config.task;
   protected readonly queue = this.config.queue;
@@ -110,6 +110,7 @@ export class WorkerPool<
 
   protected activate(processor: WorkerProcessor<TData, TResult>) {
     const processorIdx = this.pool.push(processor) - 1;
+    this.poolState.push(WorkerProcessorState.Idle);
 
     this.updatePoolState(processorIdx, WorkerProcessorState.Idle);
     this.process(processorIdx);
@@ -146,7 +147,7 @@ export class WorkerPool<
     }
 
     const poolAllIdle = this.poolState.every(
-      (s) => s === WorkerProcessorState.Idle
+      (s) => s === WorkerProcessorState.Idle,
     );
 
     if (!poolAllIdle) {
@@ -162,7 +163,7 @@ export class WorkerPool<
     }
 
     const idleStates = this.poolState.filter(
-      (s) => s === WorkerProcessorState.Idle
+      (s) => s === WorkerProcessorState.Idle,
     );
 
     if (idleStates.length === 0) {
@@ -180,7 +181,7 @@ export class WorkerPool<
     }
 
     const poolHasIdle = this.poolState.some(
-      (s) => s === WorkerProcessorState.Idle
+      (s) => s === WorkerProcessorState.Idle,
     );
 
     if (poolHasIdle) {

@@ -23,6 +23,7 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@pooley/core": ["packages/core/src/index.ts"],
+      "@pooley/core/testing": ["packages/core/testing/index.ts"],
       "@pooley/promise": ["packages/promise/src/index.ts"],
       "@pooley/queues": ["packages/queues/src/index.ts"],
       "@pooley/scalers": ["packages/scalers/src/index.ts"],
