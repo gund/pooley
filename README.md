@@ -1,5 +1,7 @@
 # Pooley
 
+[![Test](https://github.com/gund/pooley/actions/workflows/test.yml/badge.svg)](https://github.com/gund/pooley/actions/workflows/test.yml)
+
 > Generic pool implementation that works with Webworkers, Promises, etc.
 
 | Package                                  | NPM                                                                                                                    | Description                                                            |
