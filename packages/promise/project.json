@@ -1,4 +1,5 @@
 {
+  "name": "promise",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/promise/src",
   "projectType": "library",
@@ -14,7 +15,7 @@
       }
     },
     "publish": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "node tools/scripts/publish.mjs promise {args.ver} {args.tag}"
       },
@@ -34,7 +35,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/promise"],
+      "outputs": ["{workspaceRoot}/coverage/packages/promise"],
       "options": {
         "jestConfig": "packages/promise/jest.config.ts",
         "passWithNoTests": true

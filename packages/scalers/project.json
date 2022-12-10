@@ -1,4 +1,5 @@
 {
+  "name": "scalers",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/scalers/src",
   "projectType": "library",
@@ -14,7 +15,7 @@
       }
     },
     "publish": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "node tools/scripts/publish.mjs scalers {args.ver} {args.tag}"
       },
@@ -34,7 +35,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/scalers"],
+      "outputs": ["{workspaceRoot}/coverage/packages/scalers"],
       "options": {
         "jestConfig": "packages/scalers/jest.config.ts",
         "passWithNoTests": true

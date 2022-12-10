@@ -1,11 +1,12 @@
 {
+  "name": "example",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "packages/example/src",
   "tags": ["ui", "demo"],
   "targets": {
     "build": {
-      "executor": "@nrwl/web:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
@@ -41,7 +42,7 @@
       }
     },
     "serve": {
-      "executor": "@nrwl/web:dev-server",
+      "executor": "@nrwl/webpack:dev-server",
       "options": {
         "buildTarget": "example:build"
       },
