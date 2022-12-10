@@ -10,10 +10,21 @@ module.exports.getReleaseConfig = (pkgName) => ({
       '@semantic-release/changelog',
       {
         changelogFile: `packages/${pkgName}/CHANGELOG.md`,
-        changelogTitle: '# core - Changelog',
+        changelogTitle: `# ${pkgName} - Changelog`,
       },
     ],
-    '@semantic-release/npm',
+    [
+      '@semantic-release/exec',
+      {
+        prepareCmd: `npx nx build ${pkgName}`,
+      },
+    ],
+    [
+      '@semantic-release/npm',
+      {
+        tarballDir: `dist/tars/${pkgName}/`,
+      },
+    ],
     [
       '@semantic-release/git',
       {
@@ -21,6 +32,11 @@ module.exports.getReleaseConfig = (pkgName) => ({
         assets: [`packages/${pkgName}/CHANGELOG.md`],
       },
     ],
-    '@semantic-release/github',
+    [
+      '@semantic-release/github',
+      {
+        assets: `dist/tars/${pkgName}/*.tgz`,
+      },
+    ],
   ],
 });
