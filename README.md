@@ -1,6 +1,7 @@
 # Pooley
 
 [![Test](https://github.com/gund/pooley/actions/workflows/test.yml/badge.svg)](https://github.com/gund/pooley/actions/workflows/test.yml)
+[![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
 > Generic pool implementation that works with Webworkers, Promises, etc.
 
