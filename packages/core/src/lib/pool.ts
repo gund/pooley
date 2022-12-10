@@ -14,6 +14,7 @@ import { WorkerQueue } from './queue';
 import { WorkerPoolScaler } from './scaler';
 import { WorkerTask } from './task';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface WorkerPool<TData, TResult, TEvents = WorkerPoolEvents<TResult>>
   extends Listenable<TEvents> {}
 
@@ -36,6 +37,7 @@ export interface WorkerPoolConfig<TData, TResult> {
 export class WorkerPool<
   TData,
   TResult,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   TEvents = WorkerPoolEvents<TResult>,
 > extends listenable() {
   protected readonly task = this.config.task;
