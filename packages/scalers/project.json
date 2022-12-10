@@ -11,7 +11,7 @@
         "outputPath": "dist/packages/scalers",
         "main": "packages/scalers/src/index.ts",
         "tsConfig": "packages/scalers/tsconfig.lib.json",
-        "assets": ["packages/scalers/*.md"]
+        "assets": ["packages/scalers/*.md", "LICENSE"]
       }
     },
     "lint": {
@@ -35,13 +35,7 @@
         "command": "npx semantic-release-plus --extends ./packages/scalers/release.config.js",
         "parallel": false
       },
-      "outputs": [],
-      "dependsOn": [
-        {
-          "projects": "self",
-          "target": "build"
-        }
-      ]
+      "outputs": []
     }
   },
   "tags": ["lib", "extension"]
