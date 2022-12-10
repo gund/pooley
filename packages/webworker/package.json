@@ -1,10 +1,10 @@
 {
   "name": "@pooley/webworker",
-  "version": "0.0.7",
+  "version": "0.0.0-semrel",
   "type": "commonjs",
   "license": "MIT",
   "description": "Implements Webworker-based processor for @pooley/core",
   "peerDependencies": {
-    "@pooley/core": "^0.0.7"
+    "@pooley/core": "^1.0.0"
   }
 }
