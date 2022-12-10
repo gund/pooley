@@ -1,8 +1,8 @@
 module.exports.getReleaseConfig = (pkgName) => ({
-  extends: 'release.config.base.js',
   pkgRoot: `dist/packages/${pkgName}`,
   tagFormat: `${pkgName}@v\${version}`,
   commitPaths: [`packages/${pkgName}/*`],
+  branches: ['main', 'next'],
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',

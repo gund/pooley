@@ -32,7 +32,7 @@
     "release": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx semantic-release-plus --extends packages/promise/release.config.js",
+        "command": "npx semantic-release-plus --extends ./packages/promise/release.config.js",
         "parallel": false
       },
       "outputs": [],
