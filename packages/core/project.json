@@ -11,7 +11,7 @@
         "outputPath": "dist/packages/core",
         "main": "packages/core/src/index.ts",
         "tsConfig": "packages/core/tsconfig.lib.json",
-        "assets": ["packages/core/*.md"]
+        "assets": ["packages/core/*.md", "LICENSE"]
       }
     },
     "lint": {
@@ -40,13 +40,7 @@
         "command": "npx semantic-release-plus --extends ./packages/core/release.config.js",
         "parallel": false
       },
-      "outputs": [],
-      "dependsOn": [
-        {
-          "projects": "self",
-          "target": "build"
-        }
-      ]
+      "outputs": []
     }
   },
   "tags": ["lib", "core"]
