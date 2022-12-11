@@ -1,5 +1,13 @@
 # queues - Changelog
 
+## [1.0.1](https://github.com/gund/pooley/compare/queues@v1.0.0...queues@v1.0.1) (2022-12-11)
+
+
+### Bug Fixes
+
+* **queues:** add license and changelogs to release ([30d1e9b](https://github.com/gund/pooley/commit/30d1e9b9b6873da6c500042224f73d76b76496ef))
+* **queues:** update peer dependency on core@1.x.x ([c4f8fc9](https://github.com/gund/pooley/commit/c4f8fc9f73d464968117886a3bb95bfe46a71e84))
+
 # 1.0.0 (2022-12-10)
 
 ### Bug Fixes
