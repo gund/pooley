@@ -1,5 +1,12 @@
 # scalers - Changelog
 
+## [1.0.2](https://github.com/gund/pooley/compare/scalers@v1.0.1...scalers@v1.0.2) (2022-12-11)
+
+
+### Bug Fixes
+
+* **scalers:** fixup changelogs ([9bb8b68](https://github.com/gund/pooley/commit/9bb8b68a81ec5232daf06ce1d1d294bbb443b5b0))
+
 ## [1.0.1](https://github.com/gund/pooley/compare/scalers@v1.0.0...scalers@v1.0.1) (2022-12-11)
 
 
