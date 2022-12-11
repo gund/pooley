@@ -16,6 +16,8 @@ module.exports.getReleaseConfig = (pkgName) => ({
     [
       '@semantic-release/exec',
       {
+        // Initialize package.json in dist so @semantic-release/npm will not fail in verifyConditions
+        verifyConditionsCmd: `mkdir -p dist/packages/${pkgName} && cp packages/${pkgName}/package.json dist/packages/${pkgName}/`,
         prepareCmd: `npx nx build ${pkgName}`,
       },
     ],
