@@ -1,5 +1,17 @@
 # scalers - Changelog
 
+## [1.0.1](https://github.com/gund/pooley/compare/scalers@v1.0.0...scalers@v1.0.1) (2022-12-11)
+
+
+### Bug Fixes
+
+* **scalers:** trigger new patch release ([42adc59](https://github.com/gund/pooley/commit/42adc59db1707a375e79b590999244893241e601))
+
+
+### Reverts
+
+* fix(scalers): trigger new patch release ([e5ecc08](https://github.com/gund/pooley/commit/e5ecc08280fe0216b0fdcd7b079e3dd5a35d1650))
+
 # 1.0.0 (2022-12-11)
 
 
