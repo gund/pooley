@@ -20,6 +20,7 @@ jobs:
       - uses: actions/setup-node@v3
       - uses: actions/checkout@v3
         with:
+          fetch-depth: 0
           token: ${{ secrets.GH_TOKEN }}
       - uses: actions/cache@v3
         with:
@@ -28,6 +29,8 @@ jobs:
           restore-keys: npm-node-
       - name: Install Deps
         run: npm ci --ignore-scripts
+      - name: Reset git
+        run: git gc
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
