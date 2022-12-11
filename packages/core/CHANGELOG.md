@@ -1,5 +1,12 @@
 # core - Changelog
 
+## [1.0.1](https://github.com/gund/pooley/compare/core@v1.0.0...core@v1.0.1) (2022-12-11)
+
+
+### Bug Fixes
+
+* **core:** add license and changelogs to release ([6143ed1](https://github.com/gund/pooley/commit/6143ed17988ea2af6f899c734fda4e6f37fcafdc))
+
 # 1.0.0 (2022-12-10)
 
 
