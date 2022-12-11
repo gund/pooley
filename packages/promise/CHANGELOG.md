@@ -1,5 +1,13 @@
 # promise - Changelog
 
+## [1.0.1](https://github.com/gund/pooley/compare/promise@v1.0.0...promise@v1.0.1) (2022-12-11)
+
+
+### Bug Fixes
+
+* **promise:** add license and changelogs to release ([0ec18fb](https://github.com/gund/pooley/commit/0ec18fbd31149a6e7068ab59ee491fe14e6b584b))
+* **promise:** update peer dependency on core@1.x.x ([fefaeeb](https://github.com/gund/pooley/commit/fefaeebed18c62176041c9d3ee49f6ae5442b068))
+
 # 1.0.0 (2022-12-10)
 
 ### Bug Fixes
