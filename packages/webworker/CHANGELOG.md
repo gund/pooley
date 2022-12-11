@@ -1,5 +1,13 @@
 # webworker - Changelog
 
+## [1.0.1](https://github.com/gund/pooley/compare/webworker@v1.0.0...webworker@v1.0.1) (2022-12-11)
+
+
+### Bug Fixes
+
+* **webworker:** add license and changelogs to release ([7b59ebc](https://github.com/gund/pooley/commit/7b59ebc0500c0e411d1cf1ce64177d7c9c8ea13f))
+* **webworker:** update peer dependency on core@1.x.x ([6593491](https://github.com/gund/pooley/commit/659349116cc3747ba195a1b54b2d88edd2317ebd))
+
 # 1.0.0 (2022-12-10)
 
 ### Bug Fixes
