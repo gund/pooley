@@ -1,6 +1,6 @@
 {
   "name": "@pooley/scalers",
-  "version": "0.0.0-semrell",
+  "version": "0.0.0-semrel",
   "type": "commonjs",
   "license": "MIT",
   "description": "Implements different scalers for @pooley/core",
